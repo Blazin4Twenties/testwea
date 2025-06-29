@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Image Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #images { display: flex; gap: 10px; margin-bottom: 20px; }
+        #images img { width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; }
+        #output { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>AI Image Generator</h1>
+    <form id="imageForm">
+        <label>Add Images:</label>
+        <input type="file" id="imageInput" accept="image/*" multiple>
+        <div id="images"></div>
+        <label>Describe your image:</label><br>
+        <textarea id="prompt" rows="4" cols="50" placeholder="Type your description here..."></textarea><br>
+        <button type="submit">Generate Image</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagesDiv = document.getElementById('images');
+        const imageForm = document.getElementById('imageForm');
+        const outputDiv = document.getElementById('output');
+        let uploadedImages = [];
+
+        imageInput.addEventListener('change', (e) => {
+            imagesDiv.innerHTML = '';
+            uploadedImages = Array.from(e.target.files);
+            uploadedImages.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    imagesDiv.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        imageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            outputDiv.innerHTML = 'Generating image... (This is a placeholder. Connect to an AI API for real results.)';
+            // Here you would send `uploadedImages` and the prompt to your AI backend.
+            // Example placeholder:
+            setTimeout(() => {
+                outputDiv.innerHTML = '<img src="https://placehold.co/400x300?text=AI+Generated+Image" alt="Generated">';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
